@@ -1,0 +1,144 @@
+ <Ui xmlns="http://www.blizzard.com/wow/ui/"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../../FrameXML/UI.xsd">
+
+	<Script file="Libs\LibStub\LibStub.lua"/>
+	<Include file="libs\AceAddon-3.0\AceAddon-3.0.xml"/>
+	<Include file="libs\AceDB-3.0\AceDB-3.0.xml"/>
+	
+	<Script file="Rules.lua"/>
+	<Script file="IronmanBuddy.lua"/>
+	
+	<Script file="Compatibility/Bagnon.lua"/>
+
+	<Frame name="IMB_BlockerFlagTemplate" virtual="true">
+		<size x="12" y="12" />
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" x="2" y="2" />
+		</Anchors>
+		
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="BG" file="Interface\PETBATTLES\BattleBar-AbilityBadge-Neutral" alpha="0.75"> 
+					<color r="0" g="0" b="0" a="1" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="-3" y="-3" />
+						<Anchor point="TOPRIGHT" x="3" y="3" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Icon" file="Interface\MINIMAP\POIIcons" alpha="1"> 
+					<color r="1" g="0" b="0" a="1" />
+					<TexCoords left="0.2109375" right="0.28125" top="0.10546875" bottom="0.140625"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Scripts>
+			<OnEnter>
+				local reasons = self:GetParent():GetParent().IMBrules;
+				local flag = self:GetParent().flagString;
+				if (reasons and flag) then
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+					GameTooltip:SetText(flag, 1, 1, 1, true);
+					for k, reason in ipairs(reasons) do
+						GameTooltip:AddLine(reason, nil, nil, nil, true);
+					end
+					GameTooltip:Show();
+				end
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</Frame>
+	
+	<Frame name="IMB_ItemBlockerTemplate" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Highlight" file="Interface\BUTTONS\UI-ActionButton-Border" alphaMode="ADD">
+					<color r="1" g="0" b="0" a="1" />
+					<TexCoords left="0.21875" right="0.78125" top="0.234375" bottom="0.78125"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<Frame parentKey="Flag" inherits="IMB_BlockerFlagTemplate" />
+		</Frames>
+	</Frame>
+	
+	<Frame name="IMB_FrameBlockerTemplate" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="HighlightTL" file="Interface\BUTTONS\UI-ActionButton-Border" alphaMode="ADD" parentArray="highlightParts">
+					<TexCoords left="0.21875" right="0.5" top="0.234375" bottom="0.5" />
+					<Size x="16" y="16" />
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="HighlightTR" file="Interface\BUTTONS\UI-ActionButton-Border" alphaMode="ADD" parentArray="highlightParts">
+					<TexCoords left="0.5" right="0.78125" top="0.234375" bottom="0.5" />
+					<Size x="16" y="16" />
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="HighlightBL" file="Interface\BUTTONS\UI-ActionButton-Border" alphaMode="ADD" parentArray="highlightParts">
+					<TexCoords left="0.21875" right="0.5" top="0.5" bottom="0.78125" />
+					<Size x="16" y="16" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="HighlightBR" file="Interface\BUTTONS\UI-ActionButton-Border" alphaMode="ADD" parentArray="highlightParts">
+					<TexCoords left="0.5" right="0.78125" top="0.5" bottom="0.78125" />
+					<Size x="16" y="16" />
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="HighlightT" file="Interface\BUTTONS\UI-ActionButton-Border" alphaMode="ADD" parentArray="highlightParts">
+					<TexCoords left="0.5" right="0.5" top="0.234375" bottom="0.5" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.HighlightTL"/>
+						<Anchor point="TOPRIGHT" relativePoint="TOPLEFT" relativeKey="$parent.HighlightTR"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="HighlightB" file="Interface\BUTTONS\UI-ActionButton-Border" alphaMode="ADD" parentArray="highlightParts">
+					<TexCoords left="0.5" right="0.5" top="0.5" bottom="0.78125" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.HighlightBL"/>
+						<Anchor point="TOPRIGHT" relativePoint="TOPLEFT" relativeKey="$parent.HighlightBR"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="HighlightL" file="Interface\BUTTONS\UI-ActionButton-Border" alphaMode="ADD" parentArray="highlightParts">
+					<TexCoords left="0.21875" right="0.5" top="0.5" bottom="0.5" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.HighlightBL"/>
+						<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.HighlightTL"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="HighlightR" file="Interface\BUTTONS\UI-ActionButton-Border" alphaMode="ADD" parentArray="highlightParts">
+					<TexCoords left="0.5" right="0.78125" top="0.5" bottom="0.5" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.HighlightBR"/>
+						<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.HighlightTR"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<Frame parentKey="Flag" inherits="IMB_BlockerFlagTemplate" >
+				<size x="16" y="16" />
+			</Frame>
+			<Anchors>
+				<Anchor point="BOTTOMLEFT" x="4" y="4" />
+			</Anchors>
+		</Frames>
+	</Frame>
+	
+ </Ui>

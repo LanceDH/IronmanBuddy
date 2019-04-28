@@ -1,0 +1,9 @@
+﻿## Interface: 80000
+## Title: IronmanBuddy
+## Notes: Reminds you of the ironman rules
+## Author: LanceDH
+## Version: 1.0
+## SavedVariables: TWLDB
+## OptionalDeps: Bagnon
+
+IronmanBuddy.xml
